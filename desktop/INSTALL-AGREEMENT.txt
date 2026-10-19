@@ -1,0 +1,18 @@
+Memory Match Adventure — Installation Notice
+
+Please read this notice before installing.
+
+By selecting the agreement option and continuing with setup, you confirm that
+you are allowed to install software on this Windows account or device.
+
+Memory Match Adventure is provided as-is, without a promise that it will be
+available or suitable for every purpose. The game stores its progress,
+preferences, and any custom audio or images locally on this device. It does not
+require an account, and the game does not upload those selected files.
+
+You may uninstall the game from Windows Settings under Apps > Installed apps.
+Uninstalling removes the application. Browser storage or saved game data may
+remain on the device and can be removed separately using Windows or WebView2
+site-data controls.
+
+If you do not agree with this notice, cancel setup.

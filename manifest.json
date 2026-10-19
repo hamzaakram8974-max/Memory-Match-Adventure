@@ -1,0 +1,28 @@
+{
+  "name": "Memory Match Adventure",
+  "short_name": "Memory Match",
+  "id": "./memory%20match%20copy.html",
+  "description": "A colorful memory matching adventure with 50 levels, local progress, and offline play.",
+  "start_url": "./memory%20match%20copy.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#FFF8E7",
+  "theme_color": "#4FC3F7",
+  "categories": ["games", "education"],
+  "icons": [
+    {
+      "src": "app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

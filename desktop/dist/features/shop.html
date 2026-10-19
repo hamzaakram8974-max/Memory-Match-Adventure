@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#4FC3F7">
+    <title>Shop | Memory Match</title>
+    <link rel="stylesheet" href="../memory-match.css">
+    <link rel="stylesheet" href="features.css">
+</head>
+<body class="feature-page" data-feature="shop">
+    <main class="feature-shell">
+        <header class="feature-header">
+            <a class="feature-back" href="../memory%20match%20copy.html">← Game</a>
+            <p class="feature-kicker">COINS & COLLECTIONS</p>
+            <h1>Game shop</h1>
+            <p>Earn coins from daily achievements and first-time level wins. Spend them on card backs and hints.</p>
+        </header>
+        <section class="feature-panel shop-panel">
+            <div class="shop-wallet">
+                <span class="shop-wallet-icon" aria-hidden="true">🪙</span>
+                <span><strong id="shop-coins">0</strong><small>coins available</small></span>
+                <span class="shop-hint-count">💡 <strong id="shop-hints-top">0</strong></span>
+            </div>
+            <section class="shop-section" aria-labelledby="custom-card-title">
+                <div class="shop-section-heading">
+                    <span class="shop-section-icon" aria-hidden="true">🎨</span>
+                    <div><h2 id="custom-card-title">Create your card back</h2><p>Choose your own image, preview it, then unlock it with coins.</p></div>
+                </div>
+                <label class="shop-upload" for="custom-card-file">
+                    <span aria-hidden="true">＋</span>
+                    <strong>Choose an image</strong>
+                    <small>PNG, JPG, WEBP, GIF, AVIF or BMP · up to 8 MB</small>
+                    <input id="custom-card-file" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/avif,image/bmp">
+                </label>
+                <div id="custom-card-preview-wrap" class="custom-card-preview-wrap" hidden>
+                    <div id="custom-card-preview" class="card-back-preview custom-card-preview"></div>
+                    <div class="custom-card-preview-info"><strong id="custom-card-name"></strong><span>Design price: 40 coins</span></div>
+                </div>
+                <button id="buy-custom-card-button" class="shop-buy-custom" type="button" disabled>Unlock custom design · 40 coins</button>
+            </section>
+            <section class="shop-section" aria-labelledby="card-back-title">
+                <div class="shop-section-heading">
+                    <span class="shop-section-icon" aria-hidden="true">🃏</span>
+                    <div><h2 id="card-back-title">Card back collection</h2><p>Unlock a design once, then equip it whenever you like.</p></div>
+                </div>
+                <div id="card-back-shop" class="card-shop-grid"></div>
+            </section>
+            <section class="shop-section" aria-labelledby="hint-shop-title">
+                <div class="shop-section-heading">
+                    <span class="shop-section-icon" aria-hidden="true">💡</span>
+                    <div><h2 id="hint-shop-title">Need a hint?</h2><p>Purchased hints go straight into your game inventory.</p></div>
+                </div>
+                <article class="feature-option hint-shop-option">
+                <strong>💡 Hint · <span id="shop-hints">0</span> owned</strong>
+                <p>Hints reveal a matching pair during a level. Cost: 15 coins each.</p>
+                <button id="buy-hint-button" type="button">Buy hint · 15 coins</button>
+                </article>
+            </section>
+            <p id="shop-status" class="feature-status" role="status" aria-live="polite"></p>
+            <p class="feature-note shop-note">Daily challenge: match 10 pairs to get 30 coins and 3 hints. First-time level wins also earn coins. Custom images and purchases stay on this device.</p>
+        </section>
+    </main>
+    <script type="module" src="features.js"></script>
+</body>
+</html>

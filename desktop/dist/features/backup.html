@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#4FC3F7">
+    <title>Save Backup | Memory Match</title>
+    <link rel="stylesheet" href="../memory-match.css">
+    <link rel="stylesheet" href="features.css">
+</head>
+<body class="feature-page" data-feature="backup">
+    <main class="feature-shell">
+        <header class="feature-header"><a class="feature-back" href="index.html">← Features</a><p class="feature-kicker">KEEP YOUR PROGRESS</p><h1>Save backup</h1><p>Export a backup file or restore one on this browser.</p></header>
+        <section class="feature-panel">
+            <button id="export-backup" class="feature-primary" type="button">Download backup</button>
+            <label class="feature-file-label" for="import-backup">Choose a backup file<input id="import-backup" type="file" accept="application/json,.json"></label>
+            <p class="feature-note">Import replaces this browser's game progress and settings. Custom MP3 and image files are not included. Keep your backup file private.</p>
+            <p id="backup-status" class="feature-status" role="status" aria-live="polite"></p>
+        </section>
+    </main>
+    <script type="module" src="features.js"></script>
+</body>
+</html>

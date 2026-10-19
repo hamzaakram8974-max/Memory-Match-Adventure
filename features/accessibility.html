@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#4FC3F7">
+    <title>Accessibility | Memory Match</title>
+    <link rel="stylesheet" href="../memory-match.css">
+    <link rel="stylesheet" href="features.css">
+</head>
+<body class="feature-page" data-feature="accessibility">
+    <main class="feature-shell">
+        <header class="feature-header"><a class="feature-back" href="index.html">← Features</a><p class="feature-kicker">PLAY YOUR WAY</p><h1>Accessibility</h1><p>Adjust sound, motion, contrast, and card labels.</p></header>
+        <section class="feature-panel">
+            <label class="feature-toggle" for="access-sound">Sound effects<input id="access-sound" type="checkbox"></label>
+            <label class="feature-toggle" for="access-music">Ambient music<input id="access-music" type="checkbox"></label>
+            <label class="feature-toggle" for="access-animations">Animations<input id="access-animations" type="checkbox"></label>
+            <label class="feature-toggle" for="access-contrast">High-contrast cards and controls<input id="access-contrast" type="checkbox"></label>
+            <label class="feature-toggle" for="access-card-names">Show card names beside symbols<input id="access-card-names" type="checkbox"></label>
+            <p id="accessibility-status" class="feature-status" role="status"></p>
+        </section>
+    </main>
+    <script type="module" src="features.js"></script>
+</body>
+</html>

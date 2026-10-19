@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#4FC3F7">
+    <meta name="description" content="Play Memory Match with two or three players on one device.">
+    <title>Multiplayer | Memory Match Adventure</title>
+    <link rel="stylesheet" href="../memory-match.css">
+    <link rel="stylesheet" href="multiplayer.css">
+</head>
+<body class="multiplayer-page">
+    <main class="multiplayer-shell">
+        <header class="multiplayer-header">
+            <a class="multiplayer-back" href="../memory%20match%20copy.html">← Main menu</a>
+            <p class="multiplayer-kicker">PASS THE DEVICE · FIND THE PAIRS</p>
+            <h1>Memory Match<br><span>Multiplayer</span></h1>
+            <p>Play together on one device. Miss a pair and the turn passes; find a pair to score and play again.</p>
+        </header>
+
+        <section id="setup-panel" class="multiplayer-panel" aria-labelledby="setup-title">
+            <div class="section-title">
+                <span aria-hidden="true">🧑‍🤝‍🧑</span>
+                <div><h2 id="setup-title">Set up your match</h2><p id="setup-description">First, choose how many players are joining.</p></div>
+            </div>
+            <div class="setup-progress" aria-label="Match setup progress">
+                <span class="setup-step is-active" data-setup-step="1">1 · Players</span>
+                <span class="setup-step" data-setup-step="2">2 · Names & emojis</span>
+                <span class="setup-step" data-setup-step="3">3 · Pairs</span>
+            </div>
+            <div id="setup-step-1" class="setup-step-panel">
+                <fieldset class="player-count-picker">
+                    <legend>How many players?</legend>
+                    <label><input type="radio" name="player-count" value="2" required> 2 players</label>
+                    <label><input type="radio" name="player-count" value="3" required> 3 players</label>
+                </fieldset>
+                <button id="players-next-button" class="multiplayer-primary" type="button">Continue →</button>
+            </div>
+            <div id="setup-step-2" class="setup-step-panel" hidden>
+                <div id="player-details-fields" class="player-details-fields"></div>
+                <div class="setup-navigation">
+                    <button class="multiplayer-secondary" type="button" data-setup-back="1">← Back</button>
+                    <button id="details-next-button" class="multiplayer-primary" type="button">Choose pairs →</button>
+                </div>
+            </div>
+            <div id="setup-step-3" class="setup-step-panel" hidden>
+                <label class="pair-count-field" for="pair-count">How many pairs?
+                    <strong><output id="pair-count-output">8</output></strong>
+                    <input id="pair-count" type="range" min="4" max="16" value="8">
+                </label>
+                <p class="multiplayer-note">Every match creates a fresh random board. There are no fixed levels, and there are more than 500 possible boards.</p>
+                <div class="setup-navigation">
+                    <button class="multiplayer-secondary" type="button" data-setup-back="2">← Back</button>
+                    <button id="start-match-button" class="multiplayer-primary" type="button">🎲 Start match</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="game-panel" class="multiplayer-panel" aria-label="Multiplayer match" hidden>
+            <div class="match-toolbar">
+                <button id="new-board-button" class="multiplayer-secondary" type="button">↻ New board</button>
+                <p id="board-label" class="board-label" aria-live="polite"></p>
+            </div>
+            <div id="scoreboard" class="scoreboard" aria-label="Player scores"></div>
+            <p id="turn-status" class="turn-status" role="status" aria-live="polite"></p>
+            <div id="multiplayer-grid" class="multiplayer-grid" role="grid" aria-label="Memory match cards"></div>
+            <p id="round-status" class="round-status" role="status" aria-live="polite">Choose two cards on your turn.</p>
+        </section>
+
+        <section id="result-panel" class="multiplayer-panel result-panel" aria-labelledby="result-title" hidden>
+            <p class="result-cup" aria-hidden="true">🏆</p>
+            <h2 id="result-title">Match complete!</h2>
+            <p id="result-summary" class="result-summary"></p>
+            <ol id="final-scoreboard" class="final-scoreboard" aria-label="Final player rankings"></ol>
+            <button id="rematch-button" class="multiplayer-primary" type="button">🎲 Play a new random board</button>
+            <button id="back-to-setup-button" class="multiplayer-secondary" type="button">Change players or pairs</button>
+        </section>
+    </main>
+
+    <script type="module" src="multiplayer.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "memory-match-adventure-desktop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Windows desktop installer for Memory Match Adventure",
+  "scripts": {
+    "prepare:frontend": "node scripts/prepare-frontend.mjs",
+    "dev": "tauri dev",
+    "build": "tauri build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.0.0"
+  }
+}

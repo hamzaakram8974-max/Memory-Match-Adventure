@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Memory Match Adventure</title>
+    <meta name="theme-color" content="#4FC3F7">
+    <meta name="description" content="A colorful memory matching game with 280 levels across four difficulty tiers.">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Memory Match">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="app-icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="app-icon.svg">
+    <link rel="stylesheet" href="memory-match.css">
+</head>
+<body>
+
+    <!-- Decorative background layer; hidden from assistive technology. -->
+    <div id="floating-shapes" aria-hidden="true"></div>
+
+    <!-- Main landmark contains the menu, active board, and victory state. -->
+    <main id="main-content">
+    <!-- ==================== HOME AND LEVEL SELECTION ==================== -->
+    <section id="title-screen" class="screen" aria-labelledby="game-title">
+        <noscript>
+            <p class="instruction">Memory Match needs JavaScript enabled to run.</p>
+        </noscript>
+
+        <div class="utility-center utility-mb">
+            <div class="hero-kicker"><span aria-hidden="true">✦</span> Brain training, made fun</div>
+            <div class="app-mark" aria-hidden="true">🧠</div>
+            <h1 id="game-title" class="title-text">Memory Match</h1>
+            <div class="subtitle">Adventure</div>
+        </div>
+
+        <p class="hero-description utility-center">
+            Pick your challenge and start your memory adventure.
+        </p>
+
+        <button id="install-button" class="install-btn" type="button">📥 Install on this device</button>
+
+        <nav class="home-actions" aria-label="Main menu">
+            <button id="play-button" class="home-action primary" type="button">▶ Play</button>
+            <button id="continue-button" class="home-action" type="button">↪ Continue</button>
+            <button id="levels-button" class="home-action" type="button">🗺 Levels</button>
+            <a id="multiplayer-button" class="home-action" href="multiplayer/index.html">👥 Multiplayer</a>
+            <button id="settings-button" class="home-action" type="button">⚙ Settings</button>
+            <button id="achievements-button" class="home-action" type="button">🏆 Achievements</button>
+            <a id="shop-button" class="home-action shop-home-action" href="features/shop.html">🛍 Shop</a>
+            <button id="extras-button" class="home-action" type="button">✨ More features</button>
+            <button id="tutorial-button" class="home-action" type="button">❔ How to play</button>
+            <div id="home-progress" class="home-progress" aria-live="polite"></div>
+        </nav>
+
+        <nav id="difficulty-picker" class="difficulty-picker" aria-label="Choose a difficulty" hidden>
+            <button id="all-difficulties-back" class="difficulty-back" type="button">← Main menu</button>
+            <button class="difficulty-choice easy-choice" type="button" data-difficulty="easy">
+                <span class="difficulty-emoji" aria-hidden="true">🌱</span>
+                <span><span class="difficulty-name">Easy</span><span class="difficulty-detail">3–5 pairs · Levels 1–70</span></span>
+                <span class="difficulty-progress" id="easy-progress">0 / 70</span>
+            </button>
+            <button class="difficulty-choice medium-choice" type="button" data-difficulty="medium">
+                <span class="difficulty-emoji" aria-hidden="true">⚡</span>
+                <span><span class="difficulty-name">Medium</span><span class="difficulty-detail">6–10 pairs · Levels 71–140</span></span>
+                <span class="difficulty-progress" id="medium-progress">0 / 70</span>
+            </button>
+            <button class="difficulty-choice hard-choice" type="button" data-difficulty="hard">
+                <span class="difficulty-emoji" aria-hidden="true">🔥</span>
+                <span><span class="difficulty-name">Hard</span><span class="difficulty-detail">11–15 pairs · Levels 141–210</span></span>
+                <span class="difficulty-progress" id="hard-progress">0 / 70</span>
+            </button>
+            <button class="difficulty-choice extra-hard-choice" type="button" data-difficulty="extra-hard">
+                <span class="difficulty-emoji" aria-hidden="true">💎</span>
+                <span><span class="difficulty-name">Extra Hard</span><span class="difficulty-detail">16–20 pairs · Levels 211–280</span></span>
+                <span class="difficulty-progress" id="extra-hard-progress">0 / 70</span>
+            </button>
+        </nav>
+
+        <section id="level-section" class="level-section" aria-label="Level selection" hidden>
+            <div class="level-screen-heading">
+                <span id="selected-difficulty-title">Easy levels</span>
+                <button id="difficulty-back" class="difficulty-back" type="button">← Change difficulty</button>
+            </div>
+            <div class="level-heading">
+                <span>Choose a level</span>
+                <span id="progress-display">0 / 70 completed</span>
+            </div>
+            <div class="progress-track" role="progressbar" aria-label="Level progress" aria-valuemin="0" aria-valuemax="70" aria-valuenow="0">
+                <div id="progress-fill" class="progress-fill"></div>
+            </div>
+            <div id="level-grid" class="level-grid" aria-label="Game levels">
+                <section id="selected-level-tier" class="level-tier" aria-label="Selected difficulty levels">
+                    <h2 class="level-tier-heading"><span id="level-tier-title">🌱 Easy</span><span id="level-tier-range">Levels 1–70</span></h2>
+                    <div id="selected-levels" class="level-tier-grid"></div>
+                </section>
+            </div>
+        </section>
+
+        <div class="instruction">
+            <span class="instruction-icon" aria-hidden="true">💡</span>
+            <span>Flip two cards to find a pair. Match streaks earn bonus points, and your progress is saved on this device.</span>
+        </div>
+    </section>
+
+    <!-- ==================== ACTIVE GAME ==================== -->
+    <section id="game-screen" class="screen hidden" aria-label="Active memory game">
+        <div id="level-banner" class="level-banner"></div>
+        <header class="game-header">
+            <button id="menu-button" class="back-btn" type="button" aria-label="Back to menu">
+                <span aria-hidden="true">←</span> Menu
+            </button>
+            <div class="stat-box">
+                <div class="stat-label">Moves</div>
+                <div class="stat-value" id="moves-display">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Time left</div>
+                <div class="stat-value" id="time-display">0:00</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Score</div>
+                <div class="stat-value score-value" id="score-display">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Pairs</div>
+                <div class="stat-value" id="pairs-display">0/0</div>
+            </div>
+            <div class="stat-box coin-stat">
+                <div class="stat-label">Coins</div>
+                <div class="stat-value" id="coins-display">0</div>
+            </div>
+        </header>
+
+        <div id="game-grid" class="game-grid" role="grid" aria-label="Memory card grid"></div>
+        <div class="game-actions" aria-label="Game controls">
+            <button id="pause-button" class="game-action" type="button">Ⅱ Pause</button>
+            <button id="hint-button" class="game-action" type="button">💡 Hint · 0 left</button>
+            <button id="extra-time-button" class="game-action" type="button">⏱ +60 sec · 0</button>
+            <button id="reveal-button" class="game-action" type="button">👀 Reveal · 0</button>
+            <button id="undo-button" class="game-action" type="button">↩ Undo · 0</button>
+        </div>
+    </section>
+
+    <!-- ==================== LEVEL COMPLETION DIALOG ==================== -->
+    <section id="win-overlay" class="win-overlay" role="dialog" aria-labelledby="win-title">
+        <div id="confetti-container"></div>
+        <h2 id="win-title" class="win-title">You Win!</h2>
+        <p id="game-over-message" class="game-over-message" hidden></p>
+        <div id="win-card" class="win-card">
+            <div class="win-stat">
+                <span class="win-stat-label">Time</span>
+                <span class="win-stat-value" id="win-time">0:00</span>
+            </div>
+            <div class="win-stat">
+                <span class="win-stat-label">Moves</span>
+                <span class="win-stat-value" id="win-moves">0</span>
+            </div>
+            <div class="win-stat">
+                <span class="win-stat-label">Best Combo</span>
+                <span class="win-stat-value" id="win-combo">x0</span>
+            </div>
+            <div class="win-stat">
+                <span class="win-stat-label">Stars</span>
+                <span class="win-stat-value stars-display" id="win-stars">☆☆☆</span>
+            </div>
+            <div class="win-stat">
+                <span class="win-stat-label">Total Score</span>
+                <span class="win-stat-value win-score" id="win-score">0</span>
+            </div>
+            <div class="win-stat">
+                <span class="win-stat-label">Level Best</span>
+                <span class="win-stat-value" id="win-best">0</span>
+            </div>
+        </div>
+        <div class="utility-flex utility-mt">
+            <button id="play-again-button" class="win-btn primary" type="button">Play Again</button>
+            <button id="next-level-button" class="win-btn secondary" type="button">Next Level</button>
+            <button id="victory-levels-button" class="win-btn secondary" type="button">Levels</button>
+        </div>
+    </section>
+    </main>
+
+    <dialog id="install-help" class="install-help" aria-labelledby="install-help-title">
+        <h2 id="install-help-title">Install Memory Match</h2>
+        <p><strong>Android:</strong> Open this game in Chrome, tap “Install app” if offered, or use ⋮ → “Install app” / “Add to Home screen”.</p>
+        <p><strong>iPhone/iPad:</strong> Open this page in Safari, tap Share, then “Add to Home Screen”.</p>
+        <p>For installation and offline play, the game must be hosted on HTTPS. Run it from a local web server during development; opening the HTML file directly cannot load the JavaScript module.</p>
+        <button id="install-help-close" class="install-help-close" type="button">Got it</button>
+    </dialog>
+
+    <dialog id="settings-dialog" class="app-dialog" aria-labelledby="settings-title">
+        <h2 id="settings-title">Settings</h2>
+        <label class="setting-row" for="sound-setting"><span>Sound effects</span><input id="sound-setting" type="checkbox"></label>
+        <section id="custom-audio-settings" class="custom-audio-settings" aria-labelledby="custom-audio-title" hidden>
+            <h3 id="custom-audio-title">Your MP3 music</h3>
+            <p>Select one or more MP3 files from this device. Click a playlist track to play; tracks continue in order.</p>
+            <input id="custom-audio-file" class="visually-hidden" type="file" accept=".mp3,audio/mpeg" multiple>
+            <button id="choose-custom-audio" class="custom-audio-add" type="button">＋ Add your MP3 music</button>
+            <p id="custom-audio-selection" class="custom-audio-status" aria-live="polite">No new MP3 files selected.</p>
+            <button id="confirm-custom-audio" class="dialog-action primary custom-audio-confirm" type="button" disabled>Add selected music</button>
+            <ol id="custom-audio-playlist" class="custom-audio-playlist" aria-label="Your MP3 playlist"></ol>
+            <p id="custom-audio-status" class="custom-audio-status" role="status" aria-live="polite">Your playlist is empty.</p>
+            <audio id="custom-music-player" class="custom-music-player" controls preload="metadata" hidden>
+                Your browser cannot play audio files.
+            </audio>
+            <button id="remove-custom-audio" class="dialog-action danger custom-audio-remove" type="button" disabled>Remove all music</button>
+        </section>
+        <label class="setting-row" for="music-setting"><span>Ambient music</span><input id="music-setting" type="checkbox"></label>
+        <label class="setting-row" for="animations-setting"><span>Animations</span><input id="animations-setting" type="checkbox"></label>
+        <label class="setting-row" for="theme-setting"><span>Theme</span>
+            <select id="theme-setting" aria-label="Theme">
+                <option value="light">Light</option>
+                <option value="night">Night</option>
+                <option value="candy">Candy</option>
+                <option value="ocean">Ocean</option>
+                <option value="forest">Forest</option>
+                <option value="space">Space</option>
+            </select>
+        </label>
+        <section id="custom-background-settings" class="custom-background-settings" aria-labelledby="custom-background-title" hidden>
+            <h3 id="custom-background-title">Custom background</h3>
+            <p>Choose images from this device, select one below, then add it as your game background.</p>
+            <input id="custom-background-file" class="visually-hidden" type="file" accept="image/*" multiple>
+            <button id="choose-custom-background" class="custom-audio-add" type="button">Choose background images</button>
+            <p id="custom-background-selection" class="custom-audio-status" aria-live="polite">No images selected.</p>
+            <div id="custom-background-choices" class="custom-background-choices" role="group" aria-label="Choose a background image"></div>
+            <button id="add-custom-background" class="dialog-action primary custom-audio-confirm" type="button" disabled>Add Background</button>
+            <p id="custom-background-status" class="custom-audio-status" role="status" aria-live="polite">Using the default background.</p>
+            <button id="remove-custom-background" class="dialog-action danger custom-audio-remove" type="button" disabled>Remove background</button>
+        </section>
+        <div class="dialog-actions">
+            <button id="reset-progress-button" class="dialog-action danger" type="button">Reset progress</button>
+            <button class="dialog-action" data-close-dialog="settings-dialog" type="button">Done</button>
+        </div>
+    </dialog>
+
+    <dialog id="achievements-dialog" class="app-dialog" aria-labelledby="achievements-title">
+        <h2 id="achievements-title">Achievements</h2>
+        <section class="daily-achievement" aria-labelledby="daily-achievement-title">
+            <div class="daily-achievement-heading">
+                <span aria-hidden="true">📅</span>
+                <div>
+                    <h3 id="daily-achievement-title">Daily challenge</h3>
+                    <p>Match 10 pairs today to earn 3 hints and 30 coins for the shop.</p>
+                </div>
+            </div>
+            <div class="daily-progress-track" role="progressbar" aria-label="Daily matched pairs" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0">
+                <div id="daily-progress-fill" class="daily-progress-fill"></div>
+            </div>
+            <div class="daily-achievement-footer">
+                <span id="daily-achievement-status" aria-live="polite">0 / 10 pairs matched today</span>
+                <span id="hint-credit-count">💡 0 hints</span>
+            </div>
+        </section>
+        <div id="achievement-list"></div>
+        <div class="dialog-actions"><button class="dialog-action" data-close-dialog="achievements-dialog" type="button">Done</button></div>
+    </dialog>
+
+    <dialog id="tutorial-dialog" class="app-dialog" aria-labelledby="tutorial-title">
+        <h2 id="tutorial-title">How to play</h2>
+        <p>Turn over two cards per move and find every matching pair. A successful match keeps your streak alive for bonus points.</p>
+        <p>Use a hint token to briefly reveal a pair. Match 10 pairs in a day to earn three hint tokens; unused hints stay saved. Match all pairs to earn up to three stars: fewer moves earn more stars.</p>
+        <p>Your unlocked levels, records, achievements, and settings are saved on this device.</p>
+        <div class="dialog-actions"><button id="tutorial-close" class="dialog-action primary" type="button">Got it</button></div>
+    </dialog>
+
+    <dialog id="pause-dialog" class="app-dialog" aria-labelledby="pause-title">
+        <h2 id="pause-title">Game paused</h2>
+        <p>Your timer is stopped. Take a breather, then continue when you’re ready.</p>
+        <div class="dialog-actions">
+            <button id="resume-button" class="dialog-action primary" type="button">Resume</button>
+            <button id="restart-button" class="dialog-action" type="button">Restart level</button>
+            <button id="quit-button" class="dialog-action danger" type="button">Exit to levels</button>
+        </div>
+    </dialog>
+
+    <dialog id="confirm-dialog" class="app-dialog" aria-labelledby="confirm-title">
+        <h2 id="confirm-title">Are you sure?</h2>
+        <p id="confirm-message"></p>
+        <div class="dialog-actions">
+            <button id="confirm-cancel" class="dialog-action" type="button">Cancel</button>
+            <button id="confirm-accept" class="dialog-action danger" type="button">Confirm</button>
+        </div>
+    </dialog>
+
+    <div id="combo-text" class="combo-text" aria-live="polite"></div>
+
+    <!-- Native ES module loading keeps game logic separate from the document. -->
+    <script type="module" src="memory-match.js"></script>
+</body>
+</html>
